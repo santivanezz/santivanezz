@@ -4,7 +4,7 @@ Hola, Mi Nombre es Sergio Santrivañez 👋
  Me considero una persona comprometida, responsable, con muchas ganas
           de aprender y crecer profesionalmente. Me gusta trabajar en equipo y
           tengo facilidad de adaptación.
-          Actualmente me estoy iniciando en Desarrollo Web y me gustaría
+          Actualmente me estoy iniciando en Desarrollo Web Full Stack y me gustaría
           continuar adquiriendo experiencia para complementar mis conocimientos
           y así obtener más herramientas que me ayuden a desenvolverme de la
           mejor manera en el mundo de la programación.
