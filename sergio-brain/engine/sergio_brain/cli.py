@@ -279,6 +279,19 @@ def cmd_plugin_install(args):
     print(f"Plugin copiado a {dest}\nEn Obsidian: Ajustes > Plugins de la comunidad > desactivar modo restringido > activar 'Sergio Brain'.")
 
 
+def cmd_import_chats(args):
+    from .ai_chats import AIChatMemory
+    e = _engine(args)
+    _print(AIChatMemory(e).import_file(Path(args.file), args.provider), True)
+
+
+def cmd_import_memory(args):
+    from .ai_chats import AIChatMemory
+    e = _engine(args)
+    text = Path(args.file).read_text(encoding="utf-8", errors="replace") if args.file else sys.stdin.read()
+    _print(AIChatMemory(e).import_memory(args.provider, text), True)
+
+
 def cmd_costs(args):
     e = _engine(args)
     _print(e.costs.summary(args.days), True)
@@ -322,6 +335,8 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("contradictions", help="posibles contradicciones").set_defaults(fn=cmd_contradictions)
     s = sub.add_parser("feedback", help="registrar feedback"); s.add_argument("target_type", choices=["memory", "suggestion", "contradiction", "answer", "document"]); s.add_argument("target_id"); s.add_argument("verdict", choices=["USEFUL", "NOT_USEFUL", "WRONG", "DUPLICATE", "IMPORTANT", "IGNORE"]); s.add_argument("--note"); s.set_defaults(fn=cmd_feedback)
     s = sub.add_parser("plugin-install", help="copia el plugin de Obsidian a la bóveda"); s.add_argument("--src"); s.set_defaults(fn=cmd_plugin_install)
+    s = sub.add_parser("import-chats", help="importa exportaciones de ChatGPT / Claude / Gemini"); s.add_argument("file"); s.add_argument("--provider", default="auto", choices=["auto", "chatgpt", "claude", "gemini", "other"]); s.set_defaults(fn=cmd_import_chats)
+    s = sub.add_parser("import-memory", help="importa la 'memoria sobre mí' de un asistente (texto pegado)"); s.add_argument("provider", choices=["chatgpt", "claude", "gemini", "other"]); s.add_argument("file", nargs="?"); s.set_defaults(fn=cmd_import_memory)
     s = sub.add_parser("costs", help="uso de APIs externas"); s.add_argument("--days", type=int, default=30); s.set_defaults(fn=cmd_costs)
     return p
 

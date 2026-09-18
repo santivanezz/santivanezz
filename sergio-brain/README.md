@@ -29,6 +29,7 @@ OBSIDIAN  +  PLUGIN (TypeScript)  +  MEMORY ENGINE (Python)  +  SQLITE (+FTS5)
 | Why do I know this? / What changed? | `sergio-brain why`, `sergio-brain changed` |
 | Inbox de capturas (clipboard, hotkey, extensión de navegador, manual) con clasificación | `sergio-brain capture`, `Ctrl+Alt+S` |
 | Documentos (PDF, DOCX, XLSX, PPTX, TXT, CSV, MD) | `sergio-brain import` |
+| Conversaciones y memoria de ChatGPT / Claude / Gemini (importación + captura en vivo) | `sergio-brain import-chats`, `import-memory`, extensión (`docs/AI-CHATS.md`) |
 | Daily Memory, Morning Briefing, Weekly/Monthly Review, Brain Health, Command Center | `sergio-brain review …`, `health` |
 | Active recall con relevance engine y feedback | `sergio-brain recall`, comando *Remember* |
 | API local de memoria personal | `sergio-brain serve` → `http://127.0.0.1:8765` |

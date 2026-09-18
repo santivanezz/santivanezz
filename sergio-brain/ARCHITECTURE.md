@@ -47,6 +47,7 @@ QUERY → understand (intent, ventana temporal, entidades) → FTS5 ∥ vectores
 | `intelligence.py` | contradicciones/supersesión, timeline, why-do-I-know, what-changed, active recall, project memory |
 | `reviews.py` | Daily Memory, briefing, weekly/monthly, Brain Health, Command Center, consolidación diaria |
 | `inbox.py`, `documents.py` | capturas clasificadas con provenance; importación de documentos |
+| `ai_chats.py` | conversaciones de ChatGPT/Claude/Gemini: parsers de exportación, captura en vivo, upsert por id, memoria del asistente |
 | `backup.py` | snapshot, incremental por hash, restore, rollback de ediciones |
 | `events.py`, `watcher.py` | bus de eventos, cola persistente con retry/backoff, debounce |
 | `server.py` | API JSON local (stdlib), scheduler |
@@ -69,7 +70,7 @@ SUGGESTION_CREATED, BACKUP_CREATED` — persistidos en `events`; la cola `proces
 
 `GET /health /search /related /memory/:id /memories /project/:name /projects /timeline /tasks /entities /graph /suggestions
 /contradictions /stale /why /changed /recall /briefing /dashboard /brain-health /review /costs /inbox`
-`POST /ask /memory /capture /feedback /notify /reindex /backup /consolidate /import`
+`POST /ask /memory /capture /feedback /notify /reindex /backup /consolidate /import /ai-chat /ai-memory`
 
 ## Rendimiento
 

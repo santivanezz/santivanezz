@@ -143,6 +143,14 @@ class BrainAPI:
     def costs(self) -> dict[str, Any]:
         return self.e.costs.summary()
 
+    def ai_chat(self, payload: dict[str, Any]) -> dict[str, Any]:
+        from .ai_chats import AIChatMemory
+        mem = AIChatMemory(self.e)
+        conv = mem.from_payload(payload)
+        if not conv.messages:
+            return {"action": "ignored", "reason": "sin mensajes"}
+        return mem.upsert(conv)
+
 
 def make_handler(api: BrainAPI, token: str):
     class Handler(BaseHTTPRequestHandler):
@@ -257,6 +265,11 @@ def make_handler(api: BrainAPI, token: str):
                     return self._send(200, api.backup(payload.get("kind", "snapshot")))
                 if route == "/consolidate":
                     return self._send(200, api.e.reviews.daily_consolidation())
+                if route == "/ai-chat":
+                    return self._send(200, api.ai_chat(payload))
+                if route == "/ai-memory":
+                    from .ai_chats import AIChatMemory
+                    return self._send(200, AIChatMemory(api.e).import_memory(payload.get("provider", "other"), payload.get("text", "")))
                 if route == "/import":
                     from .documents import DocumentImporter
                     return self._send(200, DocumentImporter(api.e).import_file(Path(payload["path"]), summarize=bool(payload.get("summarize", True))))

@@ -354,3 +354,38 @@ def test_doctor_runs(vault):
     rep = run_doctor(str(vault))
     assert rep["vault"] == str(vault)
     assert rep["tools"]["python"]
+
+
+def test_ai_chat_import_and_live_upsert(engine, tmp_path):
+    import json
+    from sergio_brain.ai_chats import AIChatMemory
+    chatgpt = [{"title": "Fórmula Erlang C", "create_time": 1789700000, "update_time": 1789700100, "conversation_id": "abc-1", "current_node": "n2",
+                "mapping": {"n0": {"id": "n0", "message": None, "parent": None, "children": ["n1"]},
+                            "n1": {"id": "n1", "parent": "n0", "children": ["n2"], "message": {"author": {"role": "user"}, "create_time": 1789700000, "content": {"content_type": "text", "parts": ["¿Cómo se calcula Erlang C? mi password: hunter22"]}}},
+                            "n2": {"id": "n2", "parent": "n1", "children": [], "message": {"author": {"role": "assistant"}, "create_time": 1789700050, "content": {"content_type": "text", "parts": ["Erlang C se calcula con el tráfico ofrecido y el número de agentes."]}}}}}]
+    f = tmp_path / "conversations.json"
+    f.write_text(json.dumps(chatgpt), encoding="utf-8")
+    stats = AIChatMemory(engine).import_file(f)
+    assert stats == {"conversations": 1, "created": 1, "updated": 0, "unchanged": 0, "secrets_redacted": 1}
+    note = next((engine.vault.root / "SERGIO BRAIN/AI Chats/ChatGPT").glob("*.md"))
+    text = note.read_text(encoding="utf-8")
+    assert "hunter22" not in text and "ai_chat_id: abc-1" in text and "**ChatGPT**" in text
+    assert engine.search.search("tráfico ofrecido agentes")[0]["path"].startswith("SERGIO BRAIN/AI Chats")
+    # re-import is idempotent
+    assert AIChatMemory(engine).import_file(f)["unchanged"] == 1
+    # claude export
+    claude = [{"uuid": "u-9", "name": "Plan Power BI", "created_at": "2026-09-10T10:00:00Z", "chat_messages": [{"sender": "human", "text": "Ayúdame con DAX", "created_at": "2026-09-10T10:00:00Z"}, {"sender": "assistant", "text": "Claro, DAX es el lenguaje de medidas de Power BI.", "created_at": "2026-09-10T10:01:00Z"}]}]
+    f2 = tmp_path / "claude.json"
+    f2.write_text(json.dumps(claude), encoding="utf-8")
+    assert AIChatMemory(engine).import_file(f2)["created"] == 1
+    # live capture from the extension, then an update to the same chat
+    api = BrainAPI(engine)
+    r1 = api.ai_chat({"provider": "gemini", "id": "g1", "url": "https://gemini.google.com/app/g1", "title": "Kanban", "messages": [{"role": "user", "text": "¿Qué es Kanban?"}, {"role": "assistant", "text": "Kanban es un método visual de gestión del flujo de trabajo."}]})
+    assert r1["action"] == "created"
+    r2 = api.ai_chat({"provider": "gemini", "id": "g1", "url": "https://gemini.google.com/app/g1", "title": "Kanban", "messages": [{"role": "user", "text": "¿Qué es Kanban?"}, {"role": "assistant", "text": "Kanban es un método visual de gestión del flujo de trabajo."}, {"role": "user", "text": "¿Y Scrum?"}]})
+    assert r2["action"] == "updated" and r2["path"] == r1["path"]
+    assert len(list((engine.vault.root / "SERGIO BRAIN/AI Chats/Gemini").glob("*.md"))) == 1
+    # memory import
+    m = AIChatMemory(engine).import_memory("chatgpt", "Sergio trabaja en Organización y Métodos en un banco y estudia una maestría.")
+    assert (engine.vault.root / m["path"]).exists()
+    assert engine.search.search("maestría banco")[0]["path"] == m["path"]
