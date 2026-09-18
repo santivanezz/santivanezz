@@ -8,7 +8,30 @@
 - Opcional: Node 18+ solo si quieres modificar el plugin (viene compilado en `plugin/main.js`).
 - Opcional: [Ollama](https://ollama.com) para LLM local, o `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` para nube.
 
-## 1. Motor Python
+## 0. PC corporativo: solo CMD, sin administrador
+
+Todo se instala **por usuario**, sin permisos de administrador y sin Git ni PowerShell:
+
+1. **Python** (si `py -3 --version` y `python --version` fallan): descarga el *Windows installer (64-bit)* de Python 3.12 en
+   python.org, ejecútalo, marca *Add python.exe to PATH* y pulsa *Install Now*. Se instala en `%LOCALAPPDATA%\Programs\Python`.
+   Si pide administrador, desmarca *Use admin privileges when installing py.exe*. Alternativa: Python de la Microsoft Store (también sin admin).
+2. **Código**: descarga el ZIP de la rama en
+   `https://github.com/santivanezz/santivanezz/archive/refs/heads/claude/sergio-brain-memory-system-cvtbfh.zip`
+   y descomprímelo, por ejemplo en `%USERPROFILE%\sergio-brain` (la carpeta `sergio-brain` de dentro del ZIP).
+3. En CMD:
+   ```bat
+   cd %USERPROFILE%\sergio-brain
+   scripts\install.cmd
+   ```
+   `install.cmd` crea `.venv`, instala el motor, ejecuta `doctor` y `init` (localiza "Boveda Sergio" en D:\ automáticamente;
+   si hay dudas: `scripts\install.cmd "D:\ruta\Boveda Sergio"`).
+4. Luego, en orden: `.venv\Scripts\sergio-brain audit` → `backup` → `index` → `plugin-install` → `scripts\serve.cmd`.
+5. Arranque automático sin admin: `scripts\register-startup-user.cmd` (acceso directo en la carpeta Inicio del usuario).
+
+Si el proxy del banco bloquea `pip`, `install.cmd` muestra las dos variantes (`--proxy` y `--trusted-host`).
+Sin acceso a PyPI el sistema no puede instalarse; sin acceso a Hugging Face simplemente no instales `[local]` y usará embeddings offline.
+
+## 1. Motor Python (con PowerShell)
 
 ```powershell
 cd sergio-brain

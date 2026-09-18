@@ -261,6 +261,24 @@ def cmd_feedback(args):
     _print({"feedback_id": e.memory.record_feedback(args.target_type, args.target_id, args.verdict, args.note)}, True)
 
 
+def cmd_plugin_install(args):
+    import shutil
+    cfg = load_config(Path(args.config) if args.config else None)
+    vault = Path(args.vault or cfg.vault_path)
+    if not vault.exists():
+        print("Bóveda no configurada; usa --vault o sergio-brain init")
+        sys.exit(2)
+    src = Path(args.src) if args.src else Path(__file__).resolve().parents[2] / "plugin"
+    if not (src / "main.js").exists():
+        print(f"No encuentro plugin/main.js en {src}. Indica --src <carpeta plugin>")
+        sys.exit(2)
+    dest = vault / ".obsidian" / "plugins" / "sergio-brain"
+    dest.mkdir(parents=True, exist_ok=True)
+    for name in ("main.js", "manifest.json", "styles.css"):
+        shutil.copy2(src / name, dest / name)
+    print(f"Plugin copiado a {dest}\nEn Obsidian: Ajustes > Plugins de la comunidad > desactivar modo restringido > activar 'Sergio Brain'.")
+
+
 def cmd_costs(args):
     e = _engine(args)
     _print(e.costs.summary(args.days), True)
@@ -303,6 +321,7 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("suggestions", help="conexiones sugeridas"); s.add_argument("--kind", choices=["LINK", "CONSOLIDATE", "SERENDIPITY", "DUPLICATE"]); s.set_defaults(fn=cmd_suggestions)
     sub.add_parser("contradictions", help="posibles contradicciones").set_defaults(fn=cmd_contradictions)
     s = sub.add_parser("feedback", help="registrar feedback"); s.add_argument("target_type", choices=["memory", "suggestion", "contradiction", "answer", "document"]); s.add_argument("target_id"); s.add_argument("verdict", choices=["USEFUL", "NOT_USEFUL", "WRONG", "DUPLICATE", "IMPORTANT", "IGNORE"]); s.add_argument("--note"); s.set_defaults(fn=cmd_feedback)
+    s = sub.add_parser("plugin-install", help="copia el plugin de Obsidian a la bóveda"); s.add_argument("--src"); s.set_defaults(fn=cmd_plugin_install)
     s = sub.add_parser("costs", help="uso de APIs externas"); s.add_argument("--days", type=int, default=30); s.set_defaults(fn=cmd_costs)
     return p
 
