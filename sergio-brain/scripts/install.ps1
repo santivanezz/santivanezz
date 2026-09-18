@@ -1,7 +1,7 @@
 # SERGIO BRAIN - instalación en Windows (PowerShell)
 # Uso:  powershell -ExecutionPolicy Bypass -File scripts\install.ps1 [-Vault "C:\ruta\Boveda Sergio"] [-Local] [-Docs]
 param(
-  [string]$Vault = "",
+  [string]$Vault = "D:\Organización y Metodos - Sergio Santivañez\Sergio\Boveda Sergio\Boveda Sergio",
   [switch]$Local,   # instala sentence-transformers (embeddings locales de calidad; descarga ~500MB)
   [switch]$Docs,    # instala pypdf/python-docx/openpyxl/python-pptx
   [switch]$Claude   # instala el SDK de Anthropic (solo se usa si configuras ai.llm_provider = "claude")

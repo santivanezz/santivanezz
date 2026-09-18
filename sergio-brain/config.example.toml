@@ -1,0 +1,12 @@
+# SERGIO BRAIN - configuración de referencia para el PC de Sergio.
+# `sergio-brain init` genera el archivo real en %APPDATA%\SergioBrain\config.toml a partir de la ruta de la bóveda.
+vault_path = "D:\\Organización y Metodos - Sergio Santivañez\\Sergio\\Boveda Sergio\\Boveda Sergio"
+data_dir = ""            # índice, logs y backups fuera de la bóveda (no se sincronizan con Obsidian Sync)
+
+[ai]
+mode = "LOCAL_ONLY"      # cambia a "HYBRID" + llm_provider = "claude" cuando tengas ANTHROPIC_API_KEY, o "ollama" para local
+llm_provider = "none"
+embedding_provider = "auto"
+
+[layout]
+backups_folder = "SERGIO BRAIN/Backups"   # excluir esta carpeta en Obsidian Sync (Ajustes > Sync > Excluded folders)

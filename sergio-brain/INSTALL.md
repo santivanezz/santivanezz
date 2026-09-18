@@ -66,7 +66,19 @@ Botones: Save selection / URL / article / page. Solo captura cuando pulsas.
 Instala AutoHotkey v2 y ejecuta `scripts\clipboard-hotkey.ahk` (Ctrl+Alt+S fuera de Obsidian).
 Alternativa sin AHK: `sergio-brain capture --clipboard`.
 
-## 6. Verificación
+## 6. Obsidian Sync (bóveda sincronizada con el celular)
+
+Tu bóveda vive en `D:\Organización y Metodos - Sergio Santivañez\Sergio\Boveda Sergio\Boveda Sergio` y se sincroniza con Obsidian Sync.
+Esto encaja bien con el diseño:
+
+- **Lo que escribes en el celular** llega a esa carpeta por Sync; el watcher del motor (en el PC) lo indexa en segundos cuando el PC está encendido. Nada se pierde si el PC estaba apagado: la siguiente vez, `sergio-brain index` (o el arranque de `serve`) recoge todo lo pendiente por hash.
+- **Lo que genera SERGIO BRAIN** (`SERGIO BRAIN/…`: briefing, reviews, Inbox, Brain Health) también se sincroniza, así que lo lees desde el celular.
+- **El índice, los logs y los backups zip** están en `%APPDATA%\SergioBrain\data`, fuera de la bóveda: no consumen cuota de Sync ni generan conflictos.
+- En *Ajustes → Sync → Excluded folders* añade `SERGIO BRAIN/Backups` (copias previas de bloques editados; no hacen falta en el móvil).
+- El plugin es solo de escritorio (`isDesktopOnly`). En el celular usas Obsidian normal; en el PC, todo lo demás.
+- Si Sync produce un conflicto, Obsidian crea `Nombre (conflicted copy).md`; Brain Health lo listará como duplicado.
+
+## 7. Verificación
 
 ```bash
 cd engine && pytest -q        # 31 tests, incluye los 15 acceptance tests del spec
