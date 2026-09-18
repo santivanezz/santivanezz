@@ -1,0 +1,15 @@
+.sb-panel { padding: 8px 12px; font-size: 13px; }
+.sb-panel h4 { margin: 12px 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); }
+.sb-panel .sb-item { padding: 4px 0; border-bottom: 1px solid var(--background-modifier-border); }
+.sb-panel .sb-item a { cursor: pointer; }
+.sb-muted { color: var(--text-muted); font-size: 12px; }
+.sb-score { float: right; color: var(--text-faint); font-size: 11px; }
+.sb-fb { margin-left: 6px; }
+.sb-fb button { font-size: 10px; padding: 0 5px; margin-left: 2px; }
+.sb-omnibar textarea { width: 100%; min-height: 60px; }
+.sb-omnibar .sb-answer { white-space: pre-wrap; margin: 10px 0; max-height: 45vh; overflow: auto; padding: 8px; background: var(--background-secondary); border-radius: 6px; }
+.sb-omnibar .sb-sources { margin-top: 8px; }
+.sb-omnibar .sb-tabs button { margin-right: 4px; }
+.sb-badge { display: inline-block; padding: 0 6px; border-radius: 8px; font-size: 10px; background: var(--background-modifier-border); margin-right: 4px; }
+.sb-status-ok { color: var(--color-green); }
+.sb-status-bad { color: var(--color-red); }

@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+node_modules/
+plugin/*.map
+.pytest_cache/
+data/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm

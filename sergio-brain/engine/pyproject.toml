@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sergio-brain"
+version = "0.1.0"
+description = "SERGIO BRAIN - Personal Memory Operating System for the Obsidian vault 'Boveda Sergio'"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+# Local embeddings (recommended). Downloads a small multilingual model once.
+local = ["sentence-transformers>=2.7"]
+# Cloud LLM providers (only used if you configure them)
+claude = ["anthropic>=0.40"]
+# Document intelligence
+docs = ["pypdf>=4.0", "python-docx>=1.1", "openpyxl>=3.1", "python-pptx>=0.6"]
+# Faster file watching (polling watcher is used when absent)
+watch = ["watchdog>=4.0"]
+clipboard = ["pyperclip>=1.8"]
+dev = ["pytest>=8.0"]
+all = ["sergio-brain[local,claude,docs,watch,clipboard,dev]"]
+
+[project.scripts]
+sergio-brain = "sergio_brain.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sergio_brain*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

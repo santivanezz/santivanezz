@@ -1,0 +1,9 @@
+{
+  "id": "sergio-brain",
+  "name": "Sergio Brain",
+  "version": "0.1.0",
+  "minAppVersion": "1.4.0",
+  "description": "Personal Memory Operating System: ask, capture, related notes, timeline, reviews and brain health for Boveda Sergio.",
+  "author": "Sergio Santivañez",
+  "isDesktopOnly": true
+}

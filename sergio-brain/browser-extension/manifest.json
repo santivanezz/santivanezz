@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Sergio Brain Capture",
+  "version": "0.1.0",
+  "description": "Save page, selection, URL or article into Boveda Sergio (via the local SERGIO BRAIN engine). Nothing is captured unless you click.",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": ["http://127.0.0.1:8765/*", "http://localhost:8765/*"],
+  "action": { "default_popup": "popup.html", "default_title": "Sergio Brain Capture" },
+  "icons": {}
+}

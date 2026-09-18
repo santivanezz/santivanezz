@@ -1,0 +1,17 @@
+{
+  "name": "sergio-brain-obsidian",
+  "version": "0.1.0",
+  "description": "Obsidian plugin for SERGIO BRAIN",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "esbuild": "^0.21.0",
+    "obsidian": "^1.5.7",
+    "typescript": "^5.4.0"
+  }
+}
